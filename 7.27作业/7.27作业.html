@@ -12,19 +12,6 @@
         background-color: lightblue !important;
       }
     </style>
-    <div id="app">
-      <input type="text" v-model="num1" @input="calculate" />
-      <span>+</span>
-      <input type="text" v-model="num2" @input="calculate" />
-      <span>=</span>
-      <input type="text" :value="result" disabled />
-      <br /><br />
-      <input type="text" v-model="num3" @input="calculates" />
-      <span>-</span>
-      <input type="text" v-model="num4" @input="calculates" />
-      <span>=</span>
-      <input type="text" :value="results" disabled />
-    </div>
     <br /><br />
     <div id="box">
       姓名:<input type="text" v-model="name" /> 年龄:<input
@@ -35,7 +22,7 @@
       <button @click="fun" :value="str" v-if="showfun">提交</button>
       <button @click="fun1" v-if="showfuns">取消</button>
       <br /><br />
-      <table style="text-align: center; width: 800px" border="1">
+      <table style="text-align: center; width:100%" border="1">
         <thead>
           <tr>
             <th><input type="checkbox" v-model="selectAll" /></th>
@@ -69,25 +56,6 @@
       </table>
     </div>
     <script>
-      new Vue({
-        el: "#app",
-        data: {
-          num1: "",
-          num2: "",
-          result: 0,
-          num3: "",
-          num4: "",
-          results: 0,
-        },
-        methods: {
-          calculate() {
-            this.result = Number(this.num1) + Number(this.num2);
-          },
-          calculates() {
-            this.results = Number(this.num3) - Number(this.num4);
-          },
-        },
-      });
       new Vue({
         el: "#box",
         data: {
