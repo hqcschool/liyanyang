@@ -22,11 +22,11 @@
       <button @click="fun" :value="str" v-if="showfun">提交</button>
       <button @click="fun1" v-if="showfuns">取消</button>
       <br /><br />
-      <table style="text-align: center; width:100%" border="1">
+      <table style="text-align: center; width: 100%" border="1">
         <thead>
           <tr>
             <th><input type="checkbox" v-model="selectAll" /></th>
-            <th>姓名</th>
+            <th @click="sortList">姓名</th>
             <th>年龄</th>
             <th>性别</th>
             <th>操作</th>
@@ -127,6 +127,12 @@
           bianse(index) {
             console.log(index);
             this.indexs = index;
+          },
+          sortList() {
+            console.log(11);
+            this.todolist.sort((a, b) => {
+              return a.name.localeCompare(b.name);
+            });
           },
         },
         watch: {
