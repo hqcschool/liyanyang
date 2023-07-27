@@ -7,6 +7,11 @@
     <script src="./vue.js"></script>
   </head>
   <body>
+    <style>
+      .bianshe {
+        background-color: lightblue !important;
+      }
+    </style>
     <div id="app">
       <input type="text" v-model="num1" @input="calculate" />
       <span>+</span>
@@ -27,9 +32,10 @@
         v-model="age"
       />
       性别<input type="text" v-model="sex" />
-      <button @click="fun" :value="str">提交</button>
+      <button @click="fun" :value="str" v-if="showfun">提交</button>
+      <button @click="fun1" v-if="showfuns">取消</button>
       <br /><br />
-      <table style="width: 600px" border="1">
+      <table style="text-align: center; width: 800px" border="1">
         <thead>
           <tr>
             <th>姓名</th>
@@ -39,15 +45,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(title,index) in todolist ">
-            <th>{{title.name}}</th>
-            <th>{{title.age}}</th>
-            <th>{{title.sex}}</th>
-            <th>
+          <tr
+            v-for="(title,index) in todolist "
+            v-bind:style="index%2==0?'background-color:pink':'background-color:yellow'"
+            @mouseover="bianse(index)"
+            v-bind:class="index==indexs?'bianshe':''"
+          >
+            <td>{{title.name}}</td>
+            <td>{{title.age}}</td>
+            <td>{{title.sex}}</td>
+            <td>
               <button @click="remove(index)">删除</button>
               <button @click="xiu(index)">修改</button>
               <button @click="cha(index)">查看</button>
-            </th>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -85,6 +96,10 @@
           sex: "",
           str: "提交",
           index: 0,
+          showfun: true,
+          showfuns: false,
+          showfun1s: false,
+          indexs: -1,
         },
         methods: {
           //添加
@@ -101,7 +116,7 @@
               this.todolist[this.index].age = this.age;
               this.todolist[this.index].sex = this.sex;
               this.name = this.age = this.sex = "";
-              this.str = "提交";
+              this.str = "修改";
             }
           },
           //删除
@@ -115,6 +130,8 @@
             (this.name = this.todolist[index].name),
               (this.age = this.todolist[index].age);
             this.sex = this.todolist[index].sex;
+            this.showfun = false;
+            this.showfuns = true;
           },
           //修改
           xiu(index) {
@@ -124,6 +141,17 @@
             (this.name = this.todolist[index].name),
               (this.age = this.todolist[index].age),
               (this.sex = this.todolist[index].sex);
+            this.showfuns = false;
+            this.showfun1s = true;
+          },
+          fun1() {
+            this.showfun = true;
+            this.showfuns = false;
+            this.name = this.age = this.sex = "";
+          },
+          bianse(index) {
+            console.log(index);
+            this.indexs = index;
           },
         },
       });
