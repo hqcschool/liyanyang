@@ -137,11 +137,9 @@
             this.name = this.age = this.sex = "";
           },
           bianse(index) {
-            console.log(index);
             this.indexs = index;
           },
           sortList() {
-            console.log(11);
             this.todolist.sort((a, b) => {
               return a.name.localeCompare(b.name);
             });
