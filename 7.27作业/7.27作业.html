@@ -47,6 +47,8 @@
             <td>{{item.age}}</td>
             <td>{{item.sex}}</td>
             <td>
+              <button @click="shang(index)">上移</button>
+              <button @click="xia(index)">下移</button>
               <button @click="remove(index)">删除</button>
               <button @click="xiu(index)">修改</button>
               <button @click="cha(index)">查看</button>
@@ -77,6 +79,16 @@
           selectedItems: [],
         },
         methods: {
+          shang(index) {
+            const qem = this.todolist[index];
+            this.todolist.splice(index, 1);
+            this.todolist.splice(index - 1, 0, qem);
+          },
+          xia(index) {
+            const qem = this.todolist[index];
+            this.todolist.splice(index, 1);
+            this.todolist.splice(index + 1, 0, qem);
+          },
           //添加
           fun() {
             if (this.str == "提交") {
