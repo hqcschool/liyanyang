@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./vue.js"></script>
+  </head>
+  <style>
+    .box1 {
+      width: 1130px;
+      height: 600px;
+      margin: auto;
+      /* background-color: aquamarine; */
+    }
+    li {
+      list-style: none;
+    }
+    .uls li {
+      width: 200px;
+      height: 280px;
+      float: left;
+      margin: 5px;
+      border: 1px solid whitesmoke;
+    }
+    .img {
+      width: 200px;
+      height: 210px;
+      background-color: aliceblue;
+    }
+    .nr {
+      font-size: 11px;
+      color: #666;
+    }
+    .pc {
+      color: #999;
+    }
+    table td,
+    table th {
+      border-left: none;
+      border-right: none;
+    }
+    .imgs {
+      float: left;
+      width: 100px;
+      height: 100px;
+    }
+    .sp1 {
+      float: left;
+      line-height: 105px;
+      margin-left: 10px;
+    }
+    .tst {
+      width: 40px;
+    }
+    .floot {
+      width: 100%;
+      height: 200px;
+      background-color: white;
+    }
+    .sel {
+      margin: 5px;
+      width: 120px;
+      height: 35px;
+      border: 1px solid #dd307f;
+      color: #dd307f;
+    }
+    .di {
+      width: 300px;
+      height: 100px;
+      float: right;
+    }
+    .p1 {
+      color: #999;
+      font-size: 14px;
+    }
+    .di1 {
+      width: 100%;
+      height: 60px;
+      background-color: whitesmoke;
+      position: relative;
+      top: 65px;
+    }
+    .btns {
+      width: 290px;
+      height: 60px;
+      background-color: #dd307f;
+      border: 1px solid #dd307f;
+      color: white;
+      position: relative;
+      left: 74%;
+    }
+    .a1 {
+      color: #dd307f;
+    }
+    .c1 {
+      width: 50px;
+      height: 25px;
+      background: linear-gradient(to right, #ff9595, #ff6bbf);
+      font-size: 14px;
+      border-radius: 50px;
+      font-weight: normal;
+      color: white;
+      text-align: center;
+      line-height: 25px;
+      position: absolute;
+    }
+    .bottomx {
+      border-top: 1px solid black;
+    }
+    .yun {
+      width: 50px;
+      height: 20px;
+      border: 1px solid lightgreen;
+      border-radius: 10px;
+      text-align: center;
+      color: lightgreen;
+      line-height: 20px;
+    }
+    .comm {
+      width: 100%;
+      height: 100px;
+      background-color: #dd307f;
+    }
+    .trs {
+      background-color: whitesmoke;
+    }
+    .del {
+      background-color: coral;
+      color: white;
+      border: 1px solid coral;
+    }
+    .tst {
+      text-align: center;
+    }
+    .gong {
+      color: #dd307f;
+    }
+    .p2 {
+      color: #666;
+      float: right;
+      line-height: 30px;
+    }
+  </style>
+  <div id="box">
+    <!-- 盒子 -->
+    <div class="box1">
+      <ul class="uls">
+        <li v-for="(item,index) in todolist " @dblclick="add(index)">
+          <div class="img">
+            <img :src="item.img" class="img" />
+          </div>
+          <div>
+            <div class="c1">特价卖</div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>￥{{item.pirce}}</b>
+            <del class="pc">{{item.originalprice}}</del>
+            <span class="pc">{{item.discount}}</span>
+            <br />
+            <span class="nr">{{item.content}}</span>
+          </div>
+        </li>
+      </ul>
+      <!-- 表格 -->
+      <table
+        class="tby"
+        style="width: 100%; border-collapse: collapse"
+        border="1"
+      >
+        <thead>
+          <tr style="text-align: center" class="trs">
+            <th>商品</th>
+            <th></th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <br /><br />
+        <tbody>
+          <tr v-for="(item,index) in list   " style="text-align: center">
+            <td>
+              <input type="checkbox" @click="checkbox(item,index)" />
+            </td>
+            <td class="td1">
+              <img :src="item.img" class="imgs" style="display: inline-block" />
+              <span class="sp1">{{item.content}}</span>
+            </td>
+            <td>{{item.pirce}}￥</td>
+            <td>
+              <!-- 加减 -->
+              <input type="button" value="-" @click="changeNum(0,item)" />
+              <input type="number" class="tst" v-bind:value="item.num || 0" />
+              <input
+                type="button"
+                class="jia"
+                value="+"
+                @click="changeNum(1,item)"
+              />
+            </td>
+            <td><button @click="del(index)" class="del">删除</button></td>
+          </tr>
+          <tr>
+            <td><div class="yun">运费</div></td>
+            <td>新人免邮</td>
+          </tr>
+        </tbody>
+      </table>
+      <br /><br />
+      <!-- 底部 -->
+      <div class="floot">
+        <select name="" class="sel">
+          <option value="">使用优惠卷</option>
+          <option value="">五元</option>
+        </select>
+        <div class="di">
+          <p class="p1">共有<span class="gong">{{num()}}</span>件商品</p>
+          <p class="p1">
+            总金额 (未含运费)<span class="a1">{{allPrice | pirce}}</span>
+          </p>
+        </div>
+        <div class="di1">
+          <p class="p2">请在倒计时结束前结算</p>
+          <button class="btns">立即结算</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <body></body>
+  <script>
+    new Vue({
+      el: "#box",
+      data: {
+        img: "",
+        pirce: "",
+        discount: "",
+        originalprice: "",
+        content: "",
+
+        todolist: [
+          {
+            img: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/108040/2023/0206/76/8dfa1c7a-e717-48be-b3e8-dda7c69e01a4_273x273_90.jpg",
+            pirce: "158",
+            discount: "4折",
+            originalprice: "399",
+            content: "行云男休闲鞋男鞋子潮流百搭老爹鞋男运动鞋男轻盈舒适",
+          },
+          {
+            img: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/2022/09/19/152/2cdfe066-9fa7-4678-933b-ba59e360da56_273x273_90.jpg",
+            pirce: "298",
+            discount: "6.8折",
+            originalprice: "493",
+            content: "男休闲鞋男鞋子男运动鞋男小白鞋经典日常简约百搭活力",
+          },
+          {
+            img: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/613214/2022/1118/142/4cf587d6-2c39-47fe-bc0f-b5b739c7cdec_273x273_90.jpg",
+            pirce: "435",
+            discount: "5.4折",
+            originalprice: "799",
+            content:
+              "【韦德全城8】篮球鞋男子低帮韦德系列魔术贴缓震防滑篮球鞋男",
+          },
+          {
+            img: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/2022/09/29/54/421d07bf-b26d-43e0-b85e-93f0b7a54291_273x273_90.jpg",
+            pirce: "258",
+            discount: "3.7折",
+            originalprice: "699",
+            content: "跑步鞋男款鞋子男运动鞋回弹潮流经典复古",
+          },
+          {
+            img: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/108040/2023/0720/132/99bab906-5e0e-4bd1-9bea-7908712d3305_273x273_90.jpg",
+            pirce: "315",
+            discount: "7.2折",
+            originalprice: "439",
+            content: "跑步鞋男越影Element减震回弹透气低帮运动鞋",
+          },
+          {
+            img: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/108040/2023/0711/195/bd861c76-2624-4c5b-9b46-7c861fecfc8e_273x273_90.jpg",
+            pirce: "238",
+            discount: "4.0折",
+            originalprice: "599",
+            content: "CF逍遥行跑步鞋男运动鞋减震回弹舒适透气",
+          },
+          {
+            img: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/108040/2023/0504/81/3ca7cf31-1417-4de1-9006-f8372a33f68a_273x273_90.jpg",
+            pirce: "298",
+            discount: "6.8折",
+            originalprice: "493",
+            content: "天迹板鞋男鞋2023新款休闲鞋子潮流时尚滑板鞋轻便运动鞋",
+          },
+          {
+            img: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/108040/2023/0711/19/728123f4-831f-40a1-8252-59f45ca41454_273x273_90.jpg",
+            pirce: "258",
+            discount: "5.9折",
+            originalprice: "439",
+            content: "跑步鞋男鞋拾光男士鞋子跑鞋低帮运动鞋ARXT005",
+          },
+          {
+            img: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/108040/2023/0104/7/b847a70d-efce-4b9d-967b-d9e6f69590cf_273x273_90.jpg",
+            pirce: "638",
+            discount: "8.0折",
+            originalprice: "799",
+            content: "超轻篮球鞋男鞋子男运动鞋男中帮稳定支撑时尚百搭",
+          },
+          {
+            img: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/613214/2023/0328/153/d2d789c9-33ce-44f4-816d-6dec35efb0cf_273x273_90.jpg",
+            pirce: "523",
+            discount: "8.7折",
+            originalprice: "599",
+            content: "惟吾PRO板鞋学生低帮透气耐磨滑板休闲鞋运动鞋",
+          },
+        ],
+        list: [
+          {
+            img: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/108040/2023/0104/7/b847a70d-efce-4b9d-967b-d9e6f69590cf_273x273_90.jpg",
+            pirce: "638",
+            discount: "8.0折",
+            originalprice: "799",
+            content: "超轻篮球鞋男鞋子男运动鞋男中帮稳定支撑时尚百搭",
+            on: false,
+          },
+        ],
+      },
+      methods: {
+        //添加
+        add(index) {
+          console.log(index);
+          console.log(this.todolist[index].content);
+          this.list.push({
+            img: this.todolist[index].img,
+            content: this.todolist[index].content,
+            pirce: this.todolist[index].pirce,
+          });
+        },
+        //删除
+        del(index) {
+          if (confirm("确定要删除？")) {
+            this.list.splice(index, 1);
+          }
+        },
+        //数字加减
+        changeNum(arg1, item) {
+          if (!item.num) {
+            // $set是添加值
+            this.$set(item, "num", 0);
+          }
+          if (arg1) {
+            item.num++;
+          } else if (item.num == 0) {
+            alert("库存不足");
+          } else {
+            item.num--;
+          }
+        },
+        //复选框
+        checkbox(item, index) {
+          if (item.active) {
+            this.$set(item, "active", false);
+          } else {
+            this.$set(item, "active", true);
+          }
+          this.list[index].on = !this.list[index].on;
+        },
+        num() {
+          let quantity = 0;
+          for (let i = 0; i < this.list.length; i++) {
+            if (this.list[i].on == true) {
+              quantity++;
+            }
+          }
+          return quantity;
+        },
+      },
+      computed: {
+        // 计算总价
+        allPrice() {
+          var result = 0;
+          for (var i in this.list) {
+            if (this.list[i].active) {
+              result += this.list[i].pirce * this.list[i].num;
+            }
+          }
+          return result;
+        },
+      },
+      // 过滤器
+      filters: {
+        pirce(arg) {
+          return arg.toFixed(2) + "元";
+        },
+      },
+    });
+  </script>
+</html>
