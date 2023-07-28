@@ -19,7 +19,7 @@
         v-model="age"
       />
       性别<input type="text" v-model="sex" />
-      <button @click="fun" :value="str" v-if="showfun">提交</button>
+      <input type="button" @click="fun" :value="str" v-if="showfun" />
       <button @click="fun1" v-if="showfuns">取消</button>
       <br /><br />
       <table style="text-align: center; width: 100%" border="1">
